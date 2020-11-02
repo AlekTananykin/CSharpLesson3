@@ -18,11 +18,26 @@ namespace Task3
 {
     class Program
     {
+
+
         static void Main(string[] args)
         {
             Random rnd = new Random();
             const int maxRand = 10;
             const int minRand = -10;
+
+            SimplifyAndPrinDouble(rnd, minRand, maxRand);
+            FractionOperations(rnd, minRand, maxRand);
+
+            ZeroDenomerator();
+
+            Console.ReadKey();
+        }
+
+        static void FractionOperations(Random rnd, int minRand, int maxRand)
+        {
+            Console.WriteLine("\n--------------------------------------");
+            Console.WriteLine("Операции с дробными числами");
 
             Fraction number1 = new Fraction()
             {
@@ -30,31 +45,20 @@ namespace Task3
                 Denomerator = rnd.Next(1, maxRand)
             };
 
-            number1.Simplify();
-
-            int factor = rnd.Next(1, maxRand);
             Fraction number2 = new Fraction()
             {
-                Numerator = rnd.Next(minRand, maxRand) * factor,
-                Denomerator = rnd.Next(1, maxRand) * factor
+                Numerator = rnd.Next(minRand, maxRand),
+                Denomerator = rnd.Next(1, maxRand)
             };
+
+            number1.Simplify();
+            number2.Simplify();
 
             Console.WriteLine("Первое дробное число: {0}", number1.ToString());
             Console.WriteLine("Второе дробное число: {0}", number2.ToString());
 
-            Console.WriteLine("\nВторое дробное число в формате с плавающей " + 
-                "точкой: {0}", number2.ToDouble());
-
-            number2.Simplify();
-            Console.WriteLine("\nУпрощение второго дробного числа: {0}", number2);
-            Console.WriteLine("Второе дробное число в формате с плавающей " + 
-                "точкой: {0}", number2.ToDouble());
-
-
-            Console.WriteLine("\nОперации с дробными числами");
-
             Fraction result = number1.Plus(number2);
-            Console.WriteLine("({0}) + ({1}) = {2}", 
+            Console.WriteLine("({0}) + ({1}) = {2}",
                 number1.ToString(), number2.ToString(), result.ToString());
 
             result = number1.Subtract(number2);
@@ -76,8 +80,12 @@ namespace Task3
                 Console.WriteLine("Исключение при операции деления: {0}",
                     aex.Message);
             }
+        }
 
-            Console.WriteLine("\nПроверка на присваивание знаменателю значения \"0\"");
+        static void ZeroDenomerator()
+        {
+            Console.WriteLine("\n--------------------------------------");
+            Console.WriteLine("Проверка на присваивание знаменателю значения \"0\"");
             try
             {
                 Fraction number3 = new Fraction();
@@ -87,8 +95,30 @@ namespace Task3
             {
                 Console.WriteLine(ex.Message);
             }
+        }
 
-            Console.ReadKey();
+        static void SimplifyAndPrinDouble(Random rnd, int minRand,  int maxRand)
+        {
+            Console.WriteLine("\n--------------------------------------");
+            Console.WriteLine("Упрощение дробного числа и его представление в " +
+                "формате с плавающей точкой \"0\"");
+
+            int factor = rnd.Next(1, maxRand);
+            Fraction number = new Fraction()
+            {
+                Numerator = rnd.Next(minRand, maxRand) * factor,
+                Denomerator = rnd.Next(1, maxRand) * factor
+            };
+
+            Console.WriteLine("Дробное число: {0}", number.ToString());
+
+            Console.WriteLine("\nДробное число в формате с плавающей " +
+                "точкой: {0}", number.ToDouble());
+
+            number.Simplify();
+            Console.WriteLine("\nУпрощение дробного числа: {0}", number);
+            Console.WriteLine("Дробное число в формате с плавающей " +
+                "точкой: {0}", number.ToDouble());
         }
     }
 }
